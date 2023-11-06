@@ -27,7 +27,8 @@
         <HorizontalStackLayout>
             <CheckBox
             VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+            HorizontalOptions="Center"
+            IsChecked="{Binding ToDo.Completed , Mode=TwoWay}"/>
 
             <Label 
             Text="{Binding  Todo.Completed}"
