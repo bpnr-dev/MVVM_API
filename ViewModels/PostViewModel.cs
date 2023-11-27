@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MVVM_API_SampleProject.Models;
+using MVVM_API_SampleProject.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,10 +16,7 @@ namespace MVVM_API_SampleProject.ViewModels
     //Herdando ObservableObject do Community Toolkit Mvvm
     internal partial class PostViewModel : ObservableObject, IDisposable
     {
-        HttpClient client;
-
-        JsonSerializerOptions _serializerOptions;
-        string baseUrl = "https://jsonplaceholder.typicode.com";
+        private readonly PostService _postService;
 
         [ObservableProperty]
         public int _UserId;
@@ -35,9 +33,9 @@ namespace MVVM_API_SampleProject.ViewModels
 
         public PostViewModel()
         {
-            client = new HttpClient();
             Posts = new ObservableCollection<Post>();
-            _serializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            _postService = new PostService();
+
         }
 
         //Consumir a API Rest -> Criação dos Commands
@@ -46,19 +44,15 @@ namespace MVVM_API_SampleProject.ViewModels
 
         private async Task LoadPostsAsync()
         {
-            var url = $"{baseUrl}/posts";
             try
             {
-                var response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
-                {
-                    string content = await response.Content.ReadAsStringAsync();
-                    Posts = JsonSerializer.Deserialize<ObservableCollection<Post>>(content, _serializerOptions);
-                }
+                Posts = await _postService.GetAllPostsAsync();
+
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine(e.Message);
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Exceção do service");
             }
         }
 
