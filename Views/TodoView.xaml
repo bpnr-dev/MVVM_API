@@ -4,10 +4,10 @@
              x:Class="MVVM_API_SampleProject.Views.TodoView"
              Title="TodoView">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Entry Placeholder="Id Todo" Text="{Binding Todo.Id}"/>
+        <Entry Placeholder="Título do Todo" Text="{Binding Todo.UserId}"/>
+        <Entry Placeholder="Título do Todo" Text="{Binding Todo.Title}"/>
+        <Entry Placeholder="Id Todo" Text="{Binding Todo.Completed}"/>
 
         <Label 
             Text="{Binding Todo.UserId}"
